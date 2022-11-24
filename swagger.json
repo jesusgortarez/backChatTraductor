@@ -13,7 +13,7 @@
     "version" : "1.0.0"
   },
   "servers" : [ {
-    "url" : "https://sd-proback.herokuapp.com",
+    "url" : "https://sdback-chatraductor.onrender.com",
     "description" : "Entorno de producción de apis"
   } ],
   "tags" : [ {
@@ -55,13 +55,13 @@
     "/api/auth/logout/{id}" : {
       "get" : {
         "tags" : [ "Usuarios" ],
-        "summary" : "Cierra sesión usuarios",
-        "description" : "Este método elimina el cache de la sesión y la cierra",
+        "summary" : "Elimina Online socket",
+        "description" : "Elimina la secion Online del usuario en el socket",
         "parameters" : [ {
           "in" : "path",
           "name" : "id",
           "required" : true,
-          "description" : "id de del usuario a cerrar sesión",
+          "description" : "id de del usuario",
           "schema" : {
             "type" : "string"
           }
