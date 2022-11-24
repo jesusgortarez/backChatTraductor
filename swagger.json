@@ -1,0 +1,299 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Chat traductor Español a Ingles",
+    "description" : "Una api de chat que traduce lo que envías de español a ingles, para que puedas ir aprendiendo ingles",
+    "contact" : {
+      "email" : "jesus.gortarez@uabc.edu.mx"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://sd-proback.herokuapp.com",
+    "description" : "Entorno de producción de apis"
+  } ],
+  "tags" : [ {
+    "name" : "Usuarios",
+    "description" : "Usuarios"
+  }, {
+    "name" : "Mensajes",
+    "description" : "mensajes"
+  } ],
+  "paths" : {
+    "/api/auth/allusers/{id}" : {
+      "get" : {
+        "tags" : [ "Usuarios" ],
+        "summary" : "Obtiene usuarios",
+        "description" : "Este método obtiene todos los usuarios excepto el usuario con el que estas obteniendo los datos",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "description" : "id de usuario en uso",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "usuarios obtenidos",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Users"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/logout/{id}" : {
+      "get" : {
+        "tags" : [ "Usuarios" ],
+        "summary" : "Cierra sesión usuarios",
+        "description" : "Este método elimina el cache de la sesión y la cierra",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "description" : "id de del usuario a cerrar sesión",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "sesión cerrada",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string",
+                  "items" : {
+                    "properties" : {
+                      "id" : {
+                        "type" : "string",
+                        "example" : "637710b0f002cd8c2e7639f5"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/register" : {
+      "post" : {
+        "tags" : [ "Usuarios" ],
+        "summary" : "Registrar usuarios",
+        "description" : "Este método crea usuarios",
+        "requestBody" : {
+          "description" : "Es necesario el nombre de usuario, correo y contraseña",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Usuario creado"
+          }
+        }
+      }
+    },
+    "/api/auth/login" : {
+      "post" : {
+        "tags" : [ "Usuarios" ],
+        "summary" : "Iniciar sesión",
+        "description" : "Este método inicia la sesión en el chat",
+        "requestBody" : {
+          "description" : "Es necesario el nombre de usuario y contraseña",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Login"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Sesión correcto"
+          }
+        }
+      }
+    },
+    "/api/messages/getmsg" : {
+      "post" : {
+        "tags" : [ "Mensajes" ],
+        "summary" : "Obtiene mensajes",
+        "description" : "Este método obtiene los mensajes entre dos usuarios usando su id",
+        "requestBody" : {
+          "description" : "Es necesario el nombre de usuario de origen y de destino",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Mensajes"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Mensajes"
+          }
+        }
+      }
+    },
+    "/api/messages/addmsg" : {
+      "post" : {
+        "tags" : [ "Mensajes" ],
+        "summary" : "Envía mensajes",
+        "description" : "Este método manda un mensaje entre dos usuarios mensaje",
+        "requestBody" : {
+          "description" : "Es necesario el id del usuario origen y destino, el nombre de usuario de origen y su contraseña, ademas de especificar si la contraseña esta o no encriptada",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Enviar"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Mensajes"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Users" : {
+        "description" : "usuarios",
+        "type" : "array",
+        "items" : {
+          "properties" : {
+            "id" : {
+              "type" : "string",
+              "example" : "637710b0f002cd8c2e7639f5"
+            },
+            "username" : {
+              "type" : "string",
+              "example" : "jesus"
+            },
+            "email" : {
+              "type" : "string",
+              "example" : "chuy0495@gmail.com"
+            }
+          }
+        }
+      },
+      "User" : {
+        "required" : [ "username", "email", "password" ],
+        "type" : "object",
+        "properties" : {
+          "username" : {
+            "type" : "string",
+            "example" : "Ferchii",
+            "minimum" : 3,
+            "maximum" : 20
+          },
+          "email" : {
+            "type" : "string",
+            "format" : "email",
+            "example" : "Ferchii@gmail.com",
+            "maximum" : 80
+          },
+          "password" : {
+            "type" : "string",
+            "format" : "password",
+            "example" : 12345678,
+            "minimum" : 3
+          }
+        }
+      },
+      "Login" : {
+        "required" : [ "username", "password" ],
+        "type" : "object",
+        "properties" : {
+          "username" : {
+            "type" : "string",
+            "example" : "Ferchii",
+            "minimum" : 3,
+            "maximum" : 20
+          },
+          "password" : {
+            "type" : "string",
+            "format" : "password",
+            "example" : 12345678,
+            "minimum" : 3
+          }
+        }
+      },
+      "Mensajes" : {
+        "required" : [ "from", "to" ],
+        "type" : "object",
+        "properties" : {
+          "from" : {
+            "description" : "id de la persona que envía el mensaje en este caso jesus",
+            "type" : "string",
+            "example" : "637710b0f002cd8c2e7639f5"
+          },
+          "to" : {
+            "description" : "id de la persona que recibe  el mensaje en este caso Ferchii",
+            "type" : "string",
+            "example" : "6378aa17cf54cbb3a97d3ffb"
+          }
+        }
+      },
+      "Enviar" : {
+        "required" : [ "from", "to", "msg" ],
+        "type" : "object",
+        "properties" : {
+          "from" : {
+            "description" : "id de la persona que envía el mensaje en este caso jesus",
+            "type" : "string",
+            "example" : "637710b0f002cd8c2e7639f5"
+          },
+          "to" : {
+            "description" : "id de la persona que recibe  el mensaje en este caso Ferchii",
+            "type" : "string",
+            "example" : "6378aa17cf54cbb3a97d3ffb"
+          },
+          "message" : {
+            "description" : "Mensaje a enviar",
+            "type" : "string",
+            "example" : "hola"
+          },
+          "username" : {
+            "description" : "nombre de usuario de quien envía el mensaje en este caso jesus",
+            "type" : "string",
+            "example" : "jesus"
+          },
+          "password" : {
+            "description" : "contraseña del usuario de origen en este caso jesus",
+            "type" : "string",
+            "example" : "11111111"
+          },
+          "encryption" : {
+            "description" : "define si la contraseña esta o no encriptada. Para el ejemplo no lo esta ya que estamos enviando directamente la contraseña, si se implementa el chat y obtienes los valores devueltos por mongodb la contraseña estará encriptada",
+            "type" : "bool",
+            "example" : false
+          }
+
+        }
+      }
+    }
+  }
+}
