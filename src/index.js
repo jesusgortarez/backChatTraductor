@@ -13,7 +13,7 @@ async function main(){
 	  cors: {
 		origin: "*",
 		//origin: "http://localhost:3000",
-		credentials: true,
+		//credentials: true,
 	  },
 	});
 
