@@ -56,9 +56,9 @@ module.exports.addMessage = async (req, res, next) => {
       sender: from,
     });
     if (data){
-      return res.json({ msg: "Mensaje agregado correctamente", data:data.message.text});
+      return res.json({ msg: "Mensaje agregado correctamente", data:data.message.text, status:true});
     }
-    else return res.json({ msg: "Erro al agregar el mensaje" });
+    else return res.json({ msg: "Erro al agregar el mensaje" , status:false});
   } catch (ex) {
     next(ex);
   }

@@ -11,9 +11,9 @@ async function main(){
 	)
 	const io = socket(server, {
 	  cors: {
-		origin: "*:*",
+		origin: "*",
 		//origin: "http://localhost:3000",
-		credentials: true,
+		//credentials: true,
 	  },
 	});
 
